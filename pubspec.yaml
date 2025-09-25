@@ -6,7 +6,7 @@ git: https://github.com/kechankrisna/dropdown_search
 repository: https://github.com/kechankrisna/dropdown_search
 
 environment:
-  sdk: ">=3.0.6 <4.0.0"
+  sdk: ">=3.4.4 <4.0.0"
   flutter: ">=3.0.0"
 
 
