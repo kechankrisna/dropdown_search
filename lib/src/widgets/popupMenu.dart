@@ -29,10 +29,13 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   final RelativeRect position;
   final BuildContext context;
 
+  final double? width;
+
   _PopupMenuRouteLayout(
     this.context,
-    this.position,
-  );
+    this.position, {
+    this.width,
+  });
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
@@ -45,7 +48,7 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
     return BoxConstraints.loose(
       Size(
-        parentRenderBox.size.width - position.right - position.left,
+        width ?? parentRenderBox.size.width - position.right - position.left,
         maxHeight,
       ),
     );
@@ -131,7 +134,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     );
 
     return CustomSingleChildLayout(
-      delegate: _PopupMenuRouteLayout(context, position),
+      delegate: _PopupMenuRouteLayout(context, position, width: menuModeProps.width),
       child: capturedThemes.wrap(menu),
     );
   }
