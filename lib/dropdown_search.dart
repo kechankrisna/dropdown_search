@@ -643,6 +643,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
 
     return showCustomMenu<T>(
       menuModeProps: widget.popupProps.menuProps,
+      menuWidth: widget.popupProps.menuWidth,
       context: context,
       position: (widget.popupProps.menuProps.positionCallback ?? _position)(
         popupButtonObject,

@@ -7,6 +7,7 @@ Future<T?> showCustomMenu<T>({
   required MenuProps menuModeProps,
   required RelativeRect position,
   required Widget child,
+  double? menuWidth,
 }) {
   final NavigatorState navigator = Navigator.of(context);
   return navigator.push(
@@ -15,6 +16,7 @@ Future<T?> showCustomMenu<T>({
       position: position,
       child: child,
       menuModeProps: menuModeProps,
+      menuWidth: menuWidth,
       capturedThemes: InheritedTheme.capture(
         from: context,
         to: navigator.context,
@@ -29,12 +31,12 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   final RelativeRect position;
   final BuildContext context;
 
-  final double? width;
+  final double? menuWidth;
 
   _PopupMenuRouteLayout(
     this.context,
     this.position, {
-    this.width,
+    this.menuWidth,
   });
 
   @override
@@ -48,7 +50,7 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
     return BoxConstraints.loose(
       Size(
-        width ?? parentRenderBox.size.width - position.right - position.left,
+        menuWidth ?? parentRenderBox.size.width - position.right - position.left,
         maxHeight,
       ),
     );
@@ -87,6 +89,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   final RelativeRect position;
   final Widget child;
   final CapturedThemes capturedThemes;
+  final double? menuWidth;
 
   _PopupMenuRoute({
     required this.context,
@@ -94,6 +97,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     required this.position,
     required this.capturedThemes,
     required this.child,
+    this.menuWidth,
   });
 
   @override
@@ -134,7 +138,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     );
 
     return CustomSingleChildLayout(
-      delegate: _PopupMenuRouteLayout(context, position, width: menuModeProps.width),
+      delegate: _PopupMenuRouteLayout(context, position, menuWidth: menuWidth),
       child: capturedThemes.wrap(menu),
     );
   }

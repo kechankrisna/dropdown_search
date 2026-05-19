@@ -5,8 +5,6 @@ import '../../dropdown_search.dart';
 class MenuProps {
   final ShapeBorder? shape;
   final double? elevation;
-  /// Overrides the popup menu width. Defaults to the width of the child widget.
-  final double? width;
   final Color? barrierColor;
   final Color? backgroundColor;
   final bool barrierDismissible;
@@ -26,7 +24,6 @@ class MenuProps {
     this.barrierCurve,
     this.elevation,
     this.shape,
-    this.width,
     this.positionCallback,
     this.barrierColor,
     this.backgroundColor,
