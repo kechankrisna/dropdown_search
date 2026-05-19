@@ -7,7 +7,7 @@ Future<T?> showCustomMenu<T>({
   required MenuProps menuModeProps,
   required RelativeRect position,
   required Widget child,
-  double? menuWidth,
+  BoxConstraints constraints = const BoxConstraints(),
 }) {
   final NavigatorState navigator = Navigator.of(context);
   return navigator.push(
@@ -16,7 +16,7 @@ Future<T?> showCustomMenu<T>({
       position: position,
       child: child,
       menuModeProps: menuModeProps,
-      menuWidth: menuWidth,
+      constraints: constraints,
       capturedThemes: InheritedTheme.capture(
         from: context,
         to: navigator.context,
@@ -31,12 +31,12 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   final RelativeRect position;
   final BuildContext context;
 
-  final double? menuWidth;
+  final BoxConstraints popupConstraints;
 
   _PopupMenuRouteLayout(
     this.context,
     this.position, {
-    this.menuWidth,
+    this.popupConstraints = const BoxConstraints(),
   });
 
   @override
@@ -48,9 +48,14 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double safeAreaBottom = MediaQuery.of(context).padding.bottom;
     double totalSafeArea = safeAreaTop + safeAreaBottom;
     double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
-    final double effectiveWidth =
-        menuWidth ?? parentRenderBox.size.width - position.right - position.left;
-    if (menuWidth != null) {
+    final double buttonWidth =
+        parentRenderBox.size.width - position.right - position.left;
+    final double? explicitWidth = popupConstraints.minWidth.isFinite &&
+            popupConstraints.minWidth > 0
+        ? popupConstraints.minWidth
+        : null;
+    final double effectiveWidth = explicitWidth ?? buttonWidth;
+    if (explicitWidth != null) {
       return BoxConstraints(
         minWidth: effectiveWidth,
         maxWidth: effectiveWidth,
@@ -98,7 +103,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   final RelativeRect position;
   final Widget child;
   final CapturedThemes capturedThemes;
-  final double? menuWidth;
+  final BoxConstraints constraints;
 
   _PopupMenuRoute({
     required this.context,
@@ -106,7 +111,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     required this.position,
     required this.capturedThemes,
     required this.child,
-    this.menuWidth,
+    this.constraints = const BoxConstraints(),
   });
 
   @override
@@ -147,7 +152,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     );
 
     return CustomSingleChildLayout(
-      delegate: _PopupMenuRouteLayout(context, position, menuWidth: menuWidth),
+      delegate: _PopupMenuRouteLayout(context, position, popupConstraints: constraints),
       child: capturedThemes.wrap(menu),
     );
   }

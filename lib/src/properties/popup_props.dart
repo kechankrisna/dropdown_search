@@ -63,10 +63,6 @@ class PopupProps<T> {
   ///Menu mode props
   final MenuProps menuProps;
 
-  /// Overrides the popup menu width (menu mode only).
-  /// Defaults to the width of the child widget when null.
-  final double? menuWidth;
-
   ///fit height depending on nb of result or keep height fix.
   final FlexFit fit;
 
@@ -91,7 +87,6 @@ class PopupProps<T> {
     this.dialogProps = const DialogProps(),
     this.modalBottomSheetProps = const ModalBottomSheetProps(),
     this.menuProps = const MenuProps(),
-    this.menuWidth,
     this.searchFieldProps = const TextFieldProps(),
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
@@ -115,7 +110,6 @@ class PopupProps<T> {
     this.fit = FlexFit.tight,
     this.textStyle,
     this.showSearchBox = false,
-    double? width,
     this.menuProps = const MenuProps(),
     this.searchFieldProps = const TextFieldProps(),
     this.scrollbarProps = const ScrollbarProps(),
@@ -133,7 +127,7 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 350),
     this.interceptCallBacks = false,
-  })  : this.menuWidth = width,
+  })  :
         this.mode = Mode.MENU,
         this.bottomSheetProps = const BottomSheetProps(),
         this.dialogProps = const DialogProps(),
@@ -165,7 +159,7 @@ class PopupProps<T> {
       maxHeight: 600,
     ),
     this.interceptCallBacks = false,
-  })  : this.menuWidth = null,
+  })  :
         this.mode = Mode.DIALOG,
         this.menuProps = const MenuProps(),
         this.bottomSheetProps = const BottomSheetProps(),
@@ -193,7 +187,7 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 500),
     this.interceptCallBacks = false,
-  })  : this.menuWidth = null,
+  })  :
         this.mode = Mode.BOTTOM_SHEET,
         this.menuProps = const MenuProps(),
         this.dialogProps = const DialogProps(),
@@ -221,7 +215,7 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 500),
     this.interceptCallBacks = false,
-  })  : this.menuWidth = null,
+  })  :
         this.mode = Mode.MODAL_BOTTOM_SHEET,
         this.menuProps = const MenuProps(),
         this.dialogProps = const DialogProps(),
@@ -264,7 +258,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.bottomSheetProps = const BottomSheetProps(),
     super.dialogProps = const DialogProps(),
     super.menuProps = const MenuProps(),
-    super.menuWidth,
     super.containerBuilder,
     super.constraints = const BoxConstraints(maxHeight: 350),
     super.interceptCallBacks = false,
@@ -279,7 +272,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.textStyle,
     super.fit = FlexFit.tight,
     super.showSearchBox = false,
-    double? width,
     super.searchFieldProps = const TextFieldProps(),
     super.menuProps = const MenuProps(),
     super.favoriteItemProps = const FavoriteItemProps(),
@@ -301,7 +293,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
-  }) : super.menu(width: width);
+  }) : super.menu();
 
   const PopupPropsMultiSelection.dialog({
     super.title,
@@ -415,7 +407,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
           bottomSheetProps: popupProps.bottomSheetProps,
           dialogProps: popupProps.dialogProps,
           menuProps: popupProps.menuProps,
-          menuWidth: popupProps.menuWidth,
           containerBuilder: popupProps.containerBuilder,
           constraints: popupProps.constraints,
           interceptCallBacks: popupProps.interceptCallBacks,
