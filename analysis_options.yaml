@@ -13,8 +13,6 @@ linter:
     close_sinks: true
     control_flow_in_finally: true
     hash_and_equals: true
-    package_api_docs: false
-    slash_for_doc_comments: true
     throw_in_finally: true
     unrelated_type_equality_checks: true
     valid_regexps: true
