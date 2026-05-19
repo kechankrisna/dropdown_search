@@ -127,8 +127,7 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 350),
     this.interceptCallBacks = false,
-  })  :
-        this.mode = Mode.MENU,
+  })  : this.mode = Mode.MENU,
         this.bottomSheetProps = const BottomSheetProps(),
         this.dialogProps = const DialogProps(),
         this.modalBottomSheetProps = const ModalBottomSheetProps();

@@ -42,48 +42,29 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     final parentRenderBox = context.findRenderObject() as RenderBox;
-    //keyBoardHeight is height of keyboard if showing
-    double keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
-    double safeAreaTop = MediaQuery.of(context).padding.top;
-    double safeAreaBottom = MediaQuery.of(context).padding.bottom;
-    double totalSafeArea = safeAreaTop + safeAreaBottom;
-    double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
-    final double buttonWidth =
+    final mediaQuery = MediaQuery.of(context);
+    final keyBoardHeight = mediaQuery.viewInsets.bottom;
+    final totalSafeArea = mediaQuery.padding.top + mediaQuery.padding.bottom;
+    final maxHeight = constraints.maxHeight - keyBoardHeight - totalSafeArea;
+    final buttonWidth =
         parentRenderBox.size.width - position.right - position.left;
-    final double? explicitWidth = popupConstraints.minWidth.isFinite &&
-            popupConstraints.minWidth > 0
-        ? popupConstraints.minWidth
-        : null;
-    final double effectiveWidth = explicitWidth ?? buttonWidth;
-    if (explicitWidth != null) {
-      return BoxConstraints(
-        minWidth: effectiveWidth,
-        maxWidth: effectiveWidth,
-        maxHeight: maxHeight,
-      );
-    }
-    return BoxConstraints.loose(Size(effectiveWidth, maxHeight));
+    final hasExplicitWidth = popupConstraints.minWidth.isFinite &&
+        popupConstraints.minWidth > 0;
+    final effectiveWidth =
+        hasExplicitWidth ? popupConstraints.minWidth : buttonWidth;
+    return hasExplicitWidth
+        ? BoxConstraints.tightFor(width: effectiveWidth)
+            .copyWith(maxHeight: maxHeight)
+        : BoxConstraints.loose(Size(effectiveWidth, maxHeight));
   }
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    // size: The size of the overlay.
-    // childSize: The size of the menu, when fully open, as determined by
-    // getConstraintsForChild.
+    final keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    //keyBoardHeight is height of keyboard if showing
-    double keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final x = position.left.clamp(0.0, size.width - childSize.width);
 
-    double x = position.left;
-    // Clamp to prevent going off the right edge of the screen.
-    if (x + childSize.width > size.width) {
-      x = size.width - childSize.width;
-    }
-    if (x < 0) x = 0;
-
-    // Find the ideal vertical position.
     double y = position.top;
-    // check if we are in the bottom
     if (y + childSize.height > size.height - keyBoardHeight) {
       y = size.height - childSize.height - keyBoardHeight;
     }
@@ -93,7 +74,8 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
 
   @override
   bool shouldRelayout(_PopupMenuRouteLayout oldDelegate) {
-    return true;
+    return position != oldDelegate.position ||
+        popupConstraints != oldDelegate.popupConstraints;
   }
 }
 
