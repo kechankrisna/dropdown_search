@@ -666,13 +666,13 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).primaryColorLight),
+          color: Theme.of(context).colorScheme.primaryContainer),
       child: Row(
         children: [
           Text(
             _selectedItemAsString(item),
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           Padding(padding: EdgeInsets.only(left: 8)),
           Visibility(
