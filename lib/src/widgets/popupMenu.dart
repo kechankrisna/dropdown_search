@@ -48,12 +48,16 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double safeAreaBottom = MediaQuery.of(context).padding.bottom;
     double totalSafeArea = safeAreaTop + safeAreaBottom;
     double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
-    return BoxConstraints.loose(
-      Size(
-        menuWidth ?? parentRenderBox.size.width - position.right - position.left,
-        maxHeight,
-      ),
-    );
+    final double effectiveWidth =
+        menuWidth ?? parentRenderBox.size.width - position.right - position.left;
+    if (menuWidth != null) {
+      return BoxConstraints(
+        minWidth: effectiveWidth,
+        maxWidth: effectiveWidth,
+        maxHeight: maxHeight,
+      );
+    }
+    return BoxConstraints.loose(Size(effectiveWidth, maxHeight));
   }
 
   @override
