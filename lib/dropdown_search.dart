@@ -315,7 +315,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         margin: EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).primaryColorLight,
+          color: Theme.of(context).colorScheme.primaryContainer,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -324,7 +324,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
             Flexible(
               child: Text(
                 _selectedItemAsString(item),
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -365,7 +365,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         );
       }
       return Text(_selectedItemAsString(getSelectedItem),
-          style: Theme.of(context).textTheme.subtitle1);
+          style: Theme.of(context).textTheme.titleMedium);
     }
 
     return selectedItemWidget();
@@ -620,15 +620,9 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
             widget.popupProps.modalBottomSheetProps.animation,
         constraints: widget.popupProps.modalBottomSheetProps.constraints,
         builder: (ctx) {
-          final viewInsetsBottom = EdgeInsets.fromWindowPadding(
-            WidgetsBinding.instance.window.viewInsets,
-            WidgetsBinding.instance.window.devicePixelRatio,
-          ).bottom;
+          final viewInsetsBottom = MediaQuery.of(ctx).viewInsets.bottom;
 
-          final viewPaddingTop = EdgeInsets.fromWindowPadding(
-            WidgetsBinding.instance.window.padding,
-            WidgetsBinding.instance.window.devicePixelRatio,
-          ).top;
+          final viewPaddingTop = MediaQuery.of(ctx).padding.top;
 
           return Container(
             margin: EdgeInsets.only(
