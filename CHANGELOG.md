@@ -1,3 +1,17 @@
+## [1.0.1] - 2026-05-19
+
+### Fixed
+- Replaced removed `WidgetsBinding.instance.window` with `MediaQuery.of(context)` for Flutter 3.23+ compatibility
+- Replaced removed `EdgeInsets.fromWindowPadding()` with `MediaQuery.of(context).viewInsets` / `.padding`
+- Replaced deprecated `TextTheme.subtitle1` with `TextTheme.titleMedium`
+- Replaced deprecated `TextTheme.subtitle2` with `TextTheme.titleSmall`
+- Replaced deprecated `Theme.of(context).primaryColorLight` with `Theme.of(context).colorScheme.primaryContainer`
+
+### Added
+- Widget test suite (`test/dropdown_search_test.dart`)
+- GitHub Actions CI workflow targeting Flutter stable 3.41.6
+- Switched to `flutter_lints ^4.0.0` for modern lint rules
+
 ## [5.0.2] - 2022.06.04
 
 * add 'interceptCallBacks' for popupProps
