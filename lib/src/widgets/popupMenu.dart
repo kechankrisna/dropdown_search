@@ -70,6 +70,11 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     double x = position.left;
+    // Clamp to prevent going off the right edge of the screen.
+    if (x + childSize.width > size.width) {
+      x = size.width - childSize.width;
+    }
+    if (x < 0) x = 0;
 
     // Find the ideal vertical position.
     double y = position.top;
