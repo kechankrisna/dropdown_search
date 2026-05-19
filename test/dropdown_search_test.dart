@@ -66,9 +66,29 @@ void main() {
       );
       await tester.tap(find.byType(DropdownSearch<String>));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Banana').last);
+      await tester.tap(find.text('Banana'));
       await tester.pumpAndSettle();
       expect(selected, equals('Banana'));
+    });
+
+    testWidgets('opens modal bottom sheet popup without throwing', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DropdownSearch<String>(
+              items: const ['Apple', 'Banana', 'Cherry'],
+              popupProps: const PopupProps.modalBottomSheet(
+                showSearchBox: false,
+              ),
+              onChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(DropdownSearch<String>));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Banana'), findsOneWidget);
     });
   });
 
